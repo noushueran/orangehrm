@@ -4,6 +4,14 @@
 set -e
 
 echo "Starting OrangeHRM deployment on Railway..."
+echo "Environment variables:"
+echo "DB_HOST: $DB_HOST"
+echo "DB_PORT: $DB_PORT"
+echo "DB_NAME: $DB_NAME"
+echo "DB_USER: $DB_USER"
+echo "OHRM_ADMIN_USERNAME: $OHRM_ADMIN_USERNAME"
+echo "OHRM_ORGANIZATION_NAME: $OHRM_ORGANIZATION_NAME"
+echo ""
 
 # Function to substitute environment variables in config file
 substitute_env_vars() {
@@ -56,15 +64,24 @@ fi
 # Check if OrangeHRM is already installed
 if [ ! -f "src/lib/confs/Conf.php" ]; then
     echo "OrangeHRM not installed, running installation..."
-    
+
     # Substitute environment variables in installer config
     substitute_env_vars "installer/cli_install_config.yaml"
-    
+
+    # Verify the config file was created properly
+    echo "Installer configuration:"
+    cat installer/cli_install_config.yaml
+
     # Run the CLI installer
     cd /var/www/html
     php installer/cli_install.php
-    
-    echo "OrangeHRM installation completed!"
+
+    if [ $? -eq 0 ]; then
+        echo "OrangeHRM installation completed successfully!"
+    else
+        echo "OrangeHRM installation failed!"
+        exit 1
+    fi
 else
     echo "OrangeHRM already installed, skipping installation..."
 fi

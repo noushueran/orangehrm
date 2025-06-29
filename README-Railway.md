@@ -102,6 +102,14 @@ You can customize these in the Railway dashboard:
 
 ## Troubleshooting
 
+### Build Issues
+
+If you encounter npm/yarn build warnings or errors:
+
+1. **npm warnings about `--only=production`**: These are harmless warnings about deprecated flags
+2. **Frontend build failures**: Check that both `src/client/yarn.lock` and `installer/client/yarn.lock` exist
+3. **Missing dependencies**: The build process installs all dependencies including devDependencies for building
+
 ### Database Connection Issues
 
 If you encounter database connection problems:
@@ -109,15 +117,17 @@ If you encounter database connection problems:
 1. Check that MySQL service is running in Railway dashboard
 2. Verify environment variables are set correctly
 3. Check deployment logs for connection errors
+4. Ensure the MySQL service is linked to your web service
 
 ### Installation Issues
 
 If installation fails:
 
 1. Check deployment logs in Railway dashboard
-2. Verify all environment variables are set
-3. Ensure database is accessible
-4. Try redeploying the service
+2. Verify all environment variables are set correctly
+3. Ensure database is accessible and empty
+4. Check that the installer config file was processed correctly
+5. Try redeploying the service
 
 ### File Permission Issues
 
@@ -126,6 +136,16 @@ If you encounter permission errors:
 1. The deployment script automatically sets permissions
 2. Check if the `deploy.sh` script ran successfully
 3. Verify Apache is running as www-data user
+4. Check that cache and log directories are writable
+
+### Build Process Debug
+
+To debug build issues:
+
+1. Check Railway build logs for specific error messages
+2. Verify that both frontend builds completed successfully
+3. Ensure all required files are copied to the container
+4. Check that PHP dependencies were installed correctly
 
 ## Customization
 
