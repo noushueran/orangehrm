@@ -1,0 +1,70 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile.railway"
+
+[deploy]
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[[services]]
+name = "orangehrm-web"
+
+[services.source]
+repo = "noushueran/orangehrm"
+branch = "main"
+
+[[services.variables]]
+name = "DB_HOST"
+value = "${{MySQL.MYSQL_HOST}}"
+
+[[services.variables]]
+name = "DB_PORT"
+value = "${{MySQL.MYSQL_PORT}}"
+
+[[services.variables]]
+name = "DB_NAME"
+value = "${{MySQL.MYSQL_DATABASE}}"
+
+[[services.variables]]
+name = "DB_USER"
+value = "${{MySQL.MYSQL_USER}}"
+
+[[services.variables]]
+name = "DB_PASSWORD"
+value = "${{MySQL.MYSQL_PASSWORD}}"
+
+[[services.variables]]
+name = "OHRM_ADMIN_USERNAME"
+value = "Admin"
+
+[[services.variables]]
+name = "OHRM_ADMIN_PASSWORD"
+value = "Ohrm@1423"
+
+[[services.variables]]
+name = "OHRM_ADMIN_EMAIL"
+value = "admin@example.com"
+
+[[services.variables]]
+name = "OHRM_ORGANIZATION_NAME"
+value = "OrangeHRM"
+
+[[services.variables]]
+name = "OHRM_COUNTRY"
+value = "US"
+
+[[services.variables]]
+name = "RAILWAY_ENVIRONMENT"
+value = "production"
+
+[[services]]
+name = "mysql"
+source = "mysql:8.0"
+
+[services.variables]
+MYSQL_ROOT_PASSWORD = "rootpassword"
+MYSQL_DATABASE = "orangehrm_railway"
+MYSQL_USER = "orangehrm"
+MYSQL_PASSWORD = "orangehrm_password"
