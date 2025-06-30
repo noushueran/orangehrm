@@ -7,7 +7,7 @@ COPY src/client/package*.json ./
 RUN npm ci
 
 COPY src/client/ ./
-RUN npm run build
+RUN npx vue-cli-service build --dest ./dist
 
 # Stage 2: Build installer frontend
 FROM node:18-alpine AS installer-frontend-builder
@@ -17,7 +17,7 @@ COPY installer/client/package*.json ./
 RUN npm ci
 
 COPY installer/client/ ./
-RUN npm run build
+RUN npx vue-cli-service build --dest ./dist
 
 # Stage 3: Main PHP application
 FROM php:8.3-apache-bookworm
