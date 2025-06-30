@@ -2,28 +2,22 @@
 # Stage 1: Build frontend assets
 FROM node:18-alpine AS frontend-builder
 
-# Enable corepack for yarn
-RUN corepack enable
-
 WORKDIR /app
-COPY src/client/package.json src/client/yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY src/client/package*.json ./
+RUN npm ci
 
 COPY src/client/ ./
-RUN yarn vue-cli-service build
+RUN npm run build
 
 # Stage 2: Build installer frontend
 FROM node:18-alpine AS installer-frontend-builder
 
-# Enable corepack for yarn
-RUN corepack enable
-
 WORKDIR /app
-COPY installer/client/package.json installer/client/yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY installer/client/package*.json ./
+RUN npm ci
 
 COPY installer/client/ ./
-RUN yarn vue-cli-service build
+RUN npm run build
 
 # Stage 3: Main PHP application
 FROM php:8.3-apache-bookworm
