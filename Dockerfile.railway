@@ -7,6 +7,8 @@ COPY src/client/package*.json ./
 RUN npm ci
 
 COPY src/client/ ./
+# Create the directory structure expected by DumpBuildTimestampPlugin
+RUN mkdir -p /web/dist
 RUN npx vue-cli-service build --dest ./dist
 
 # Stage 2: Build installer frontend
