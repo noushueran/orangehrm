@@ -63,8 +63,18 @@ value = "production"
 name = "mysql"
 source = "mysql:8.0"
 
-[services.variables]
-MYSQL_ROOT_PASSWORD = "rootpassword"
-MYSQL_DATABASE = "orangehrm_railway"
-MYSQL_USER = "orangehrm"
-MYSQL_PASSWORD = "orangehrm_password"
+[[services.variables]]
+name = "MYSQL_ROOT_PASSWORD"
+value = "rootpassword"
+
+[[services.variables]]
+name = "MYSQL_DATABASE"
+value = "orangehrm_railway"
+
+[[services.variables]]
+name = "MYSQL_USER"
+value = "orangehrm"
+
+[[services.variables]]
+name = "MYSQL_PASSWORD"
+value = "orangehrm_password"
